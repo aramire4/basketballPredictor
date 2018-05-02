@@ -1,0 +1,8 @@
+1 Houston
+8 Minnesota
+4 Oklahoma_City
+5 Utah
+3 Portland
+6 New_Orleans
+2 Golden_State
+7 San_Antonio

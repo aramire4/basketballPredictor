@@ -3,11 +3,11 @@ with open('teamInfo.txt') as input_file:
     for line in input_file:
        team, hOR, aOR, hDR, aDR = line.split(' ')
        teamData[team] = dict(zip(('hOffense', 'aOffense', 'hDefense', 'aDefense'), 
-                                (hOR, aOR, hDR, aDR)))
+                                (float (hOR), float (aOR), float (hDR), float (aDR))))
        
 
-"""
-class printInfo():
+
+def printInfo():
     print('initial info: ')
     for x in teamData:
         print(x)
@@ -16,7 +16,7 @@ class printInfo():
         print('Defensive rating: ')
         print('home '+ teamData[x]['hDefense'] + ' away ' + teamData[x]['aDefense'])
     print('\n')
-"""
+
 
 """
     print('team %r: ' % x[0])

@@ -1,0 +1,8 @@
+1 Toronto
+8 Washington
+4 Cleveland
+5 Indiana
+3 Philadelphia
+6 Miami
+2 Boston
+7 Milwaukee
