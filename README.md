@@ -12,15 +12,15 @@ Formula for predicting a game:
 
         Find a team’s offense compared to the rest of the league:
             vPS = Road Team's average points scored  League Average road points scored
-hPS = Home Team's average points scored  League Average home points scored
+            hPS = Home Team's average points scored  League Average home points scored
 
         Find a team’s defense compared to the rest of the league:
-vPA = Road Team's points allowed  Average points allowed by road teams
-hPA = Home Team's average points Allowed  League Average home points allowed
+                vPA = Road Team's points allowed  Average points allowed by road teams
+                hPA = Home Team's average points Allowed  League Average home points allowed
 
 
         Find a team’s final score
-vPS * hPA * Team’s Average road score
-hPS * vPA * Team’s Average home score
+                vPS * hPA * Team’s Average road score
+                hPS * vPA * Team’s Average home score
 
 After the game is finished, update the teams’ averages
