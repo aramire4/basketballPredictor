@@ -1,5 +1,5 @@
 # basketballPredictor
-Use mid season stats as a base dataset
+Use season stats as a base dataset
 Keep a dataset of NBA teams and compare defensive and offensive ratings b/w teams
 http://www.basketbet.net/how-to-start-betting-online/basketball-betting-types/totals-bets/using-home-away-averages-to-predict-nba-games/
 
