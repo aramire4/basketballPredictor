@@ -21,16 +21,25 @@ class main:
         homeScore = homePS * awayPA * teamData[home]['hOffense']
         awayScore = awayPS * homePA * teamData[away]['aOffense']
 
-        print(homeScore)
-        print(awayScore)
+        print(int(round(homeScore)))
+        print(int(round(awayScore)))
         
         update.updateStats(home, homeScore, away, awayScore)
 
-        if homeScore > awayScore:
-            return home
-        else:
+        if homeScore < awayScore:
             return away
+        else:
+            return home
 
+    def getCompetition(team, data):
+        otherTeam = ''
+        num = data[team]
+        for t in data:
+            if data[t] + num is 9:
+                otherTeam = t
+        return otherTeam
+    
+        
     """ 
     def updateStats(self, home, hScore, away, aScore):
         #update the home team's stats
@@ -61,22 +70,74 @@ class main:
         with open('westMatchups.txt') as west:
             for line in west:
                 num, team = line.split(' ')
-                info[team] = dict(zip('seed', int(num)))
+                team = team.rstrip('\n')
+                num = int(num)
+                info[team] = num
                 print(team)
     else:
         with open('eastMatchups.txt') as east:
             for line in east:
                 num, team = line.split(' ')
-                info[team] = dict(zip('seed', int(num)))
+                team = team.rstrip('\n')
+                num = int(num)
+                info[team] = num
                 print(team)
 
-    teamChoice = raw_input('please choose a team from the above options')
+    teamChoice = raw_input('please choose a team from the above options ')
+    teamAgainst = getCompetition(teamChoice, info)
+    
+    if choice is 'a' or 'A':
+        print('%s vs %s' % (teamChoice, teamAgainst))
+        win = None
+        if(info[teamChoice] > info[teamAgainst]):
+            win = findWinner(teamChoice, teamAgainst)
+        else:
+            win = findWinner(teamAgainst, teamChoice)
+        print('winner: %s' % win)
 
-    """
-    print('San_Antonio')
-    print('Golden_State')
-    win = findWinner('San_Antonio', 'Golden_State')
-    print(win)
-    win = findWinner('San_Antonio', 'Golden_State')
-    print(win)
-    """
+    if choice is 'b' or 'B':
+        print('%s vs %s' % (teamChoice, teamAgainst))
+        adv = False
+        winner = False
+        game = 1
+        win = None
+        t1W = 0
+        t2W = 0
+        champ = None
+        if(info[teamChoice] > info[teamAgainst]):
+            adv = True
+        else:
+            adv = False
+
+        while winner is False:
+            print('game %s:' % game)
+            if adv is True:
+                if game is 1 or game is 2 or game is 5 or game is 7:
+                    win = findWinner(teamChoice, teamAgainst)
+                else:
+                    win = findWinner(teamAgainst, teamChoice)
+            else:
+                if game is 1 or game is 2 or game is 5 or game is 7:
+                    win = findWinner(teamAgainst, teamChoice)
+                else:
+                    win = findWinner(teamChoice, teamAgainst)
+
+            print('winner: %s' % win)
+            if win is teamChoice:
+                t1W += 1
+            else:
+                t2W += 1
+
+            if t1W is 4 or t2W is 4:
+                winner = True
+                if t1W is 4:
+                    champ = teamChoice
+                else:
+                    champ = teamAgainst
+            game +=1
+        print('%s wins!' % champ)
+
+    else:
+        print('To be done')
+                
+        
