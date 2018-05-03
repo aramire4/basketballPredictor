@@ -24,8 +24,11 @@ class main:
 
         print(int(round(homeScore)))
         print(int(round(awayScore)))
+        teamData[home]['gamesPlayed'] += 1
+        teamData[away]['gamesPlayed'] += 1
         
-        update.updateStats(home, homeScore, away, awayScore, num)
+        update.updateStats(home, homeScore, away, awayScore, teamData[home]['gamesPlayed'],
+        teamData[away]['gamesPlayed'])
 
         if homeScore < awayScore:
             return away
@@ -151,6 +154,7 @@ class main:
         while (len(teamOrder) != 1):
             temp = simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition,
             findWinner)
+            #nextRound = temp
             teamOrder = temp
             ans = raw_input('do you want to see the results of the next round?\ny or n? ')
             ans = ans.rstrip('\n')

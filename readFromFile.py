@@ -1,9 +1,11 @@
 teamData = {}
+#teamInfo.txt
+#round2Info.txt
 with open('teamInfo.txt') as input_file:
     for line in input_file:
        team, hOR, aOR, hDR, aDR = line.split(' ')
-       teamData[team] = dict(zip(('hOffense', 'aOffense', 'hDefense', 'aDefense'), 
-                                (float (hOR), float (aOR), float (hDR), float (aDR))))
+       teamData[team] = dict(zip(('hOffense', 'aOffense', 'hDefense', 'aDefense', 'gamesPlayed'), 
+                                (float (hOR), float (aOR), float (hDR), float (aDR), 0)))
        
 
 
