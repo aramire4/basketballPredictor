@@ -78,6 +78,7 @@ class main:
    
 
     def simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition, findWinner):
+        nextRound = []
         for i in range(0, len(teamOrder), 2):
             teamChoice = teamOrder[i]
             teamAgainst = getCompetition(teamChoice, teamOrder)
@@ -147,8 +148,16 @@ class main:
 
     else:
         nextRound = []
-        nextRound = simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition,
-        findWinner)
+        while (len(teamOrder) != 1):
+            temp = simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition,
+            findWinner)
+            teamOrder = temp
+            ans = raw_input('do you want to see the results of the next round?\ny or n? ')
+            ans = ans.rstrip('\n')
+            if ans == 'n' or ans == 'N':
+                break
+                #cont = False
+                
         """
         for i in range(0, len(teamOrder), 2):
             teamChoice = teamOrder[i]
