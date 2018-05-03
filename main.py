@@ -1,5 +1,6 @@
 from readFromFile import *
 import update
+#import predictRound
 
 #print(teamData['San_Antonio']['hOffense'])
 
@@ -40,24 +41,6 @@ class main:
         return otherTeam
     
         
-    """ 
-    def updateStats(self, home, hScore, away, aScore):
-        #update the home team's stats
-        avgHomeOff = teamData[home]['hOffense']
-        teamData[home]['hOffense'] = (avgHomeOff + hScore) / 2
-
-        avgHomeDef = teamData[home]['hDefense'] 
-        teamData[home]['hDefense'] = (avgHomeDef + aScore) / 2
-
-        #update the away team's stats
-        avgAwayOff = teamData[away]['aOffense']
-        teamData[away]['aOffense'] = (avgAwayOff + aScore) / 2
-
-        avgAwayDef = teamData[away]['aDefense'] 
-        teamData[away]['aDefense'] = (avgAeayDef + hScore) / 2
-
-        #update the average stats
-    """
     print('a) simulate a game?')
     print('b) simulate the series?')
     print('c) simulate the round?')
@@ -86,7 +69,7 @@ class main:
     teamChoice = raw_input('please choose a team from the above options ')
     teamAgainst = getCompetition(teamChoice, info)
     
-    if choice is 'a' or 'A':
+    if choice is 'a' or choice is 'A':
         print('%s vs %s' % (teamChoice, teamAgainst))
         win = None
         if(info[teamChoice] > info[teamAgainst]):
@@ -95,7 +78,9 @@ class main:
             win = findWinner(teamAgainst, teamChoice)
         print('winner: %s' % win)
 
-    if choice is 'b' or 'B':
+    elif choice is 'b' or choice is 'B':
+        #predictRound.roundWinner(teamChoice, teamAgainst)
+        
         print('%s vs %s' % (teamChoice, teamAgainst))
         adv = False
         winner = False
@@ -122,7 +107,7 @@ class main:
                 else:
                     win = findWinner(teamChoice, teamAgainst)
 
-            print('winner: %s' % win)
+            print('winner: %s \n' % win)
             if win is teamChoice:
                 t1W += 1
             else:
@@ -135,7 +120,8 @@ class main:
                 else:
                     champ = teamAgainst
             game +=1
-        print('%s wins!' % champ)
+        print('%s wins!\n' % champ)
+        
 
     else:
         print('To be done')

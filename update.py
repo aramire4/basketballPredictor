@@ -3,6 +3,7 @@ from readFromFile import *
 def updateStats (home, hScore, away, aScore):
     #update the home team's stats
     avgHomeOff = teamData[home]['hOffense']
+    #teamData[home]['hOffense'] = (avgHomeOff + hScore) / 2
     teamData[home]['hOffense'] = (avgHomeOff + hScore) / 2
 
     avgHomeDef = teamData[home]['hDefense']  
@@ -16,3 +17,4 @@ def updateStats (home, hScore, away, aScore):
     teamData[away]['aDefense'] = (avgAwayDef + hScore) / 2
 
     #update the average stats
+
