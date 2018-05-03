@@ -1,8 +1,8 @@
 from readFromFile import *
 import update
+#from predictRound import *
 #import predictRound
 
-#print(teamData['San_Antonio']['hOffense'])
 
 class main:
 
@@ -10,7 +10,7 @@ class main:
         self.team = team
         self.stats = stats
 
-    def findWinner(home, away):
+    def findWinner(home, away, num):
         #Points scored
         homePS = (teamData[home]['hOffense']) / (teamData['Average']['hOffense'])
         awayPS = (teamData[away]['aOffense']) / (teamData['Average']['aOffense'])
@@ -25,62 +25,15 @@ class main:
         print(int(round(homeScore)))
         print(int(round(awayScore)))
         
-        update.updateStats(home, homeScore, away, awayScore)
+        update.updateStats(home, homeScore, away, awayScore, num)
 
         if homeScore < awayScore:
             return away
         else:
             return home
+   
 
-    def getCompetition(team, data):
-        otherTeam = ''
-        num = data[team]
-        for t in data:
-            if data[t] + num is 9:
-                otherTeam = t
-        return otherTeam
-    
-        
-    print('a) simulate a game?')
-    print('b) simulate the series?')
-    print('c) simulate the round?')
-    choice = raw_input('what do you want to do? ')
-    conf = raw_input('w) west?\ne) east? ')
-
-    
-    info = {}
-    if conf is 'w' or conf is 'W':
-        with open('westMatchups.txt') as west:
-            for line in west:
-                num, team = line.split(' ')
-                team = team.rstrip('\n')
-                num = int(num)
-                info[team] = num
-                print(team)
-    else:
-        with open('eastMatchups.txt') as east:
-            for line in east:
-                num, team = line.split(' ')
-                team = team.rstrip('\n')
-                num = int(num)
-                info[team] = num
-                print(team)
-
-    teamChoice = raw_input('please choose a team from the above options ')
-    teamAgainst = getCompetition(teamChoice, info)
-    
-    if choice is 'a' or choice is 'A':
-        print('%s vs %s' % (teamChoice, teamAgainst))
-        win = None
-        if(info[teamChoice] > info[teamAgainst]):
-            win = findWinner(teamChoice, teamAgainst)
-        else:
-            win = findWinner(teamAgainst, teamChoice)
-        print('winner: %s' % win)
-
-    elif choice is 'b' or choice is 'B':
-        #predictRound.roundWinner(teamChoice, teamAgainst)
-        
+    def roundWinner(teamChoice, teamAgainst, info, findWinner):
         print('%s vs %s' % (teamChoice, teamAgainst))
         adv = False
         winner = False
@@ -98,14 +51,14 @@ class main:
             print('game %s:' % game)
             if adv is True:
                 if game is 1 or game is 2 or game is 5 or game is 7:
-                    win = findWinner(teamChoice, teamAgainst)
+                    win = findWinner(teamChoice, teamAgainst, game)
                 else:
-                    win = findWinner(teamAgainst, teamChoice)
+                    win = findWinner(teamAgainst, teamChoice, game)
             else:
                 if game is 1 or game is 2 or game is 5 or game is 7:
-                    win = findWinner(teamAgainst, teamChoice)
+                    win = findWinner(teamAgainst, teamChoice, game)
                 else:
-                    win = findWinner(teamChoice, teamAgainst)
+                    win = findWinner(teamChoice, teamAgainst, game)
 
             print('winner: %s \n' % win)
             if win is teamChoice:
@@ -120,10 +73,92 @@ class main:
                 else:
                     champ = teamAgainst
             game +=1
-        print('%s wins!\n' % champ)
+        print('%s wins the series' % champ)
+        return champ
+   
+
+    def simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition, findWinner):
+        for i in range(0, len(teamOrder), 2):
+            teamChoice = teamOrder[i]
+            teamAgainst = getCompetition(teamChoice, teamOrder)
+            win = roundWinner(teamChoice, teamAgainst, info, findWinner)
+            nextRound.append(win)
+            if(i+1 != len(teamOrder)-1):
+                cont = raw_input('Press enter to go to the next game ')
+        return nextRound
+
+
+    #def getCompetition(team, data):
+    def getCompetition(team, order):
+        otherTeam = ''
+        pos = order.index(team)
+        if pos % 2 is 0:
+            otherTeam = order[pos+1]
+        else:
+            otherTeam = order[pos-1]
+        return otherTeam
+    
         
+    print('a) simulate a game?')
+    print('b) simulate the series?')
+    print('c) simulate the round?')
+    choice = raw_input('what do you want to do? ')
+    conf = raw_input('w) west?\ne) east? ')
+
+    
+    info = {}
+    teamOrder = []
+    if conf is 'w' or conf is 'W':
+        with open('westMatchups.txt') as west:
+            for line in west:
+                num, team = line.split(' ')
+                team = team.rstrip('\n')
+                num = int(num)
+                teamOrder.append(team)
+                info[team] = num
+                print(team)
+    else:
+        with open('eastMatchups.txt') as east:
+            for line in east:
+                num, team = line.split(' ')
+                team = team.rstrip('\n')
+                num = int(num)
+                teamOrder.append(team)
+                info[team] = num
+                print(team)
+
+    if choice is 'a' or choice is 'A':
+        teamChoice = raw_input('please choose a team from the above options ')
+        teamAgainst = getCompetition(teamChoice, teamOrder)
+        #teamAgainst = getCompetition(teamChoice, info)
+        print('%s vs %s' % (teamChoice, teamAgainst))
+        win = None
+        if(info[teamChoice] > info[teamAgainst]):
+            win = findWinner(teamChoice, teamAgainst, 1)
+        else:
+            win = findWinner(teamAgainst, teamChoice, 1)
+        print('winner: %s' % win)
+
+    elif choice is 'b' or choice is 'B':
+        teamChoice = raw_input('please choose a team from the above options ')
+        teamAgainst = getCompetition(teamChoice, teamOrder)
+        #teamAgainst = getCompetition(teamChoice, info)
+        win = roundWinner(teamChoice, teamAgainst, info, findWinner)
 
     else:
-        print('To be done')
+        nextRound = []
+        nextRound = simulateRound(teamOrder, nextRound, info, roundWinner, getCompetition,
+        findWinner)
+        """
+        for i in range(0, len(teamOrder), 2):
+            teamChoice = teamOrder[i]
+            teamAgainst = getCompetition(teamChoice, teamOrder)
+            win = roundWinner(teamChoice, teamAgainst, info, findWinner)
+            nextRound.append(win)
+            if(not i is len(teamOrder)):
+                cont = raw_input('Press enter to go to the next game ')
+        """ 
+        #print('To be done')
+
                 
         
